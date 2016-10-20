@@ -12,10 +12,20 @@ install:
   - cmd: SET PATH=C:\maven\apache-maven-3.3.9\bin;%JAVA_HOME%\bin;%PATH
   - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
+
 build_script:
-  - mvn clean package --batch-mode -DskipTest
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
 test_script:
-  - mvn clean test --batch-mode
+  - mvn test -B
+
 cache:
   - C:\maven\
   - C:\Users\appveyor\.m2
+
+notifications:
+  # Email
+  - provider: Email
+    to:
+      - google-java-format-dev+travis@google.com
+    on_build_status_changed: true
